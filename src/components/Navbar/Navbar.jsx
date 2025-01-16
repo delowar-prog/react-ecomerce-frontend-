@@ -8,7 +8,8 @@ import { MdSearch } from "react-icons/md";
 import { Input } from '../ui/input';
 import { MdOutlineCancel } from "react-icons/md";
 import { FaSliders } from 'react-icons/fa6';
-import { AuthContext } from '../../context';
+import { AuthContext } from '../../context/AuthProvider';
+
 
 
 const Navbar = () => {
