@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom"
-import Navber from "../Navber/Navber"
+import Navbar from "../Navbar/Navbar"
 
-const Layout = () => {
+const Layout = ({children}) => {
   return (
-    <div>
-        <Navber></Navber>
-        <Outlet></Outlet>
+    <div className="bg-gradient-to-br from-background to-muted">
+        <Navbar/>
+       <div className="container mx-auto min-h-screen px-4 py-8">
+        {children}
+       </div>
     </div>
   )
 }
