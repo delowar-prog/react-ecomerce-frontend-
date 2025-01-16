@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import api from "../../api/axiosInstance";
 import { AuthContext } from "../../context";
+import HomeCarousel from "./HomeCarousel";
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -29,9 +30,7 @@ const Home = () => {
 
     return (
         <div>
-            <h2>Dashboard</h2>
-            {auth?.user && <p>Welcome, {user}</p>}
-            <button onClick={handleLogout}>Logout</button>
+           <HomeCarousel />
         </div>
     )
 }

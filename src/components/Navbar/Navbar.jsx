@@ -8,6 +8,7 @@ import { MdSearch } from "react-icons/md";
 import { Input } from '../ui/input';
 import { MdOutlineCancel } from "react-icons/md";
 import { FaSliders } from 'react-icons/fa6';
+import { CiLogout } from "react-icons/ci";
 import { AuthContext } from '../../context/AuthProvider';
 
 
@@ -56,7 +57,7 @@ const Navbar = () => {
                             <CgProfile />
                         </Link>
                         <button onClick={logout} className="text-base font-semibold">
-                            Logout
+                            <CiLogout size={20}/>
                         </button>
                     </div>
                 ) : (
