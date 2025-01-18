@@ -57,7 +57,7 @@ const HomeCarousel = () => {
     >
       <CarouselContent className="max-h-full">
         {products && products.length > 0 ? (
-          products.map((product) => (
+          products.slice(0,4).map((product) => (
             <CarouselItem className="max-h-[500px]" key={product.id}>
               <div className="p-1">
                 <Card className= "shadow-none border-none outline-none">
@@ -65,7 +65,8 @@ const HomeCarousel = () => {
                     <img
                       src={product.image} // Directly use the image URL
                       alt={product.name} // Use a meaningful alt
-                      className="max-h-full max-w-full object-cover" // Style the image
+                      height={400}
+                      className="max-h-full max-w-full object-cover outline-none rounded-md" // Style the image
                     />
                   </CardContent>
                 </Card>

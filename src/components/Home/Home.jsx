@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import api from "../../api/axiosInstance";
 import { AuthContext } from "../../context";
 import HomeCarousel from "./HomeCarousel";
+import { AppSidebar } from "./AppSidebar";
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -31,6 +32,7 @@ const Home = () => {
     return (
         <div>
            <HomeCarousel />
+           
         </div>
     )
 }

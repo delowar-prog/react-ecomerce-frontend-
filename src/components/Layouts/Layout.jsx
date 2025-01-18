@@ -1,15 +1,32 @@
-import { Outlet } from "react-router-dom"
-import Navbar from "../Navbar/Navbar"
+import { Outlet } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import { AppSidebar } from "../Home/AppSidebar";
+import { SidebarProvider } from "../ui/sidebar";
+import { useState } from "react";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
+  const [open, setOpen] = useState(false)
   return (
-    <div className="bg-gradient-to-br from-background to-muted">
-        <Navbar/>
-       <div className="container mx-auto min-h-screen px-4 py-8">
-        {children}
-       </div>
-    </div>
-  )
-}
+    <SidebarProvider open={open} onOpenChange={setOpen}>
+      <div className="bg-gradient-to-br from-background to-muted min-h-screen flex flex-col">
+        {/* Navbar with Sidebar Trigger */}
+        <Navbar />
 
-export default Layout
+        {/* Content Section */}
+        <div className="flex flex-1">
+          {/* Sidebar */}
+          <div >
+          <AppSidebar className="" />
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 container mx-auto px-4 py-8">
+            {children || <Outlet />}
+          </div>
+        </div>
+      </div>
+    </SidebarProvider>
+  );
+};
+
+export default Layout;
