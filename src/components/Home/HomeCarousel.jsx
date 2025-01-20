@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay"
 import apiCall from '@/api/axiosInstance';
+import { Skeleton } from '../ui/skeleton';
 
 const HomeCarousel = () => {
   const [products, setProducts] = useState([]);
@@ -74,7 +75,17 @@ const HomeCarousel = () => {
             </CarouselItem>
           ))
         ) : (
-          <p>Loading banners...</p>
+          Array.from({ length: 4 }).map((_, index) => (
+            <CarouselItem key={index}>
+              <div className="p-1 w-full">
+                <Card className="shadow-none border-none outline-none">
+                  <CardContent className="flex w-full shadow-none items-center justify-center">
+                    <Skeleton className="min-w-[500px] h-full" />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))
         )}
       </CarouselContent>
       <CarouselPrevious /> {/* Previous button */}

@@ -21,10 +21,7 @@ const Navbar = () => {
   return (
     <div className="sticky z-50 py-2 top-0 border-b w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto container flex justify-between items-center h-16 px-4 relative">
-        
-        <SidebarTrigger icon={<FaSliders size={24} />}>
-          </SidebarTrigger>
-
+        <h1>logo</h1>
     
         <div className="flex-1 flex justify-center items-center">
           <div className="flex gap-4 justify-between items-center text-base">

@@ -56,5 +56,6 @@ theme: {
     }
   }
 },
+
 plugins: [require("tailwindcss-animate")],
 }
