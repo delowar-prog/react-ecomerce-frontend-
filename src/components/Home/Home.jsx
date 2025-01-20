@@ -3,6 +3,7 @@ import api from "../../api/axiosInstance";
 import { AuthContext } from "../../context";
 import HomeCarousel from "./HomeCarousel";
 import { AppSidebar } from "./AppSidebar";
+import ProductCart from "./ProductCart";
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -32,7 +33,7 @@ const Home = () => {
     return (
         <div>
            <HomeCarousel />
-           
+           <ProductCart/>
         </div>
     )
 }
