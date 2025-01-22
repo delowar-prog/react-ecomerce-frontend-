@@ -5,6 +5,7 @@ import Layout from './components/Layouts/Layout'
 import Home from './components/Home/Home'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
+import Collections from './components/Collections/Collections'
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
     <Route path='/login' element={<Login/>}/>
     <Route path='/register' element={<Register/>}/>
     <Route path='/' element={<Home/>}/>
+    <Route path='/collections' element={<Collections/>}/>
     </Routes>
     </Layout>
      </ThemeProvider>

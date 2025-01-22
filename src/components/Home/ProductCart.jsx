@@ -38,12 +38,12 @@ console.log('Products:',products);
   return (
     <div className="p-4 ">
      <div className="container mx-auto py-10">
-     <h1 className="text-3xl font-bold text-gray-800 my-5 px-4">Mobile</h1>
+     <h1 className="text-3xl font-bold text-gray-800 my-5 text-center">Latest Phone in the town</h1>
      <ProductCarousel filteredProducts={filteredPhones} loading={loading} />
      </div>
 
      <div className="container mx-auto py-10">
-     <h1 className="text-3xl font-bold text-gray-800 my-5 px-4">Laptop</h1>
+     <h1 className="text-3xl font-bold text-gray-800 my-5 text-center">Latest Laptop in the Town</h1>
      <ProductCarousel filteredProducts={filteredLaptops} loading={loading} />
      </div>
 

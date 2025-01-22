@@ -28,8 +28,8 @@ const HomeCarousel = () => {
           }, [])
           
     return (
-        <div className='flex items-center w-full'>
-<div className="relative w-full bg-white shadow-md rounded-md  flex items-center justify-between space-x-8">
+        <div className='flex items-center w-full mb-10 mt-5'>
+<div className="relative w-full  shadow-md rounded-md  flex items-center justify-between space-x-8">
   {/* Left Section */}
   <div className="relative w-1/2 flex flex-col items-center justify-center text-center px-6 py-0">
     {/* Background Decorative SVG */}
@@ -59,15 +59,15 @@ const HomeCarousel = () => {
       <CarouselContent className="max-h-full">
         {products && products.length > 0 ? (
           products.slice(0,4).map((product) => (
-            <CarouselItem className="max-h-[500px]" key={product.id}>
+            <CarouselItem className="max-h-[500px] w-full" key={product.id}>
               <div className="p-1">
                 <Card className= "shadow-none border-none outline-none">
                   <CardContent className="flex  w-full shadow-none items-center justify-center ">
                     <img
                       src={product.image} // Directly use the image URL
                       alt={product.name} // Use a meaningful alt
-                      height={400}
-                      className="max-h-full max-w-full object-cover outline-none rounded-md" // Style the image
+                      
+                      className=" w-full object-cover outline-none rounded-md h-[500px]" // Style the image
                     />
                   </CardContent>
                 </Card>
