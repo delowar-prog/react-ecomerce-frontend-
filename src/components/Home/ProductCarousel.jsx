@@ -9,6 +9,7 @@ import {
   } from "../ui/carousel";
   import Autoplay from "embla-carousel-autoplay";
   import { Skeleton } from "../ui/skeleton";
+import { Link } from "react-router-dom";
 
 const ProductCarousel = ({filteredProducts,loading}) => {
     return (
@@ -43,11 +44,12 @@ const ProductCarousel = ({filteredProducts,loading}) => {
                         />
                         <div className="text-center space-y-1">
                         <h1 className="text-xl font-semibold text-gray-800">{product?.title}</h1>
-                        <h1 className="text-sm text-gray-600">{product.brand}</h1>
+                        <h1 className="text-sm text-gray-600">{product?.brand}</h1>
                         </div>
                       </CardContent>
                       <CardFooter>
                         <span className="text-sm text-gray-600">{product.price}</span>
+                        <Link to={`/product/${product.id}`}>See Details</Link>
                       </CardFooter>
                     </Card>
                   </div>
