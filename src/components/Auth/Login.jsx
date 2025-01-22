@@ -12,7 +12,6 @@ const LoginPage = () => {
       try{
         const response = await apiCall('post','/login',data);
         console.log('Login Successful:',response);
-        console.log(response.user?.name,response.token);
         login(response.user.name,response.token);
         navigate('/');
       }
