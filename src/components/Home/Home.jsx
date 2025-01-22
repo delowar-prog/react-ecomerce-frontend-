@@ -1,39 +1,29 @@
 import { useContext, useEffect, useState } from "react";
 import api from "../../api/axiosInstance";
-import { AuthContext } from "../../context";
+import { AuthContext } from "../../context/AuthProvider";
 import HomeCarousel from "./HomeCarousel";
 import { AppSidebar } from "./AppSidebar";
 import ProductCart from "./ProductCart";
+import BlockFeat from "./BlockFeat";
+import Paralax from "./Paralax";
+import Searchbar from "../Searchbar/Searchbar";
 
 const Home = () => {
     const [user, setUser] = useState(null);
-    const {auth} = useContext(AuthContext);
-
-    console.log(auth);
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             const response = await api.get('/user');
-    //             setUser(response.data?.name);
-    //         } catch (err) {
-    //             localStorage.removeItem('token');
-    //             window.location.href = '/login';
-    //         }
-    //     };
-    //     fetchUser();
-    // }, []);
-
-    const handleLogout = async () => {
-        await api.post('/logout');
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-    };
-
+    const {showIn} = useContext(AuthContext);
+    console.log(showIn,"show")
     return (
         <div>
+            {
+                showIn? 
+                <Searchbar/>
+                :
+                ""
+            }
            <HomeCarousel />
            <ProductCart/>
+           <BlockFeat/>
+           <Paralax/>
         </div>
     )
 }

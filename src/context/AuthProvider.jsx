@@ -7,6 +7,8 @@ export const AuthProvider = ({ children }) => {
         user: null,
         token: null,
     });
+     const [showIn, setShowIn] = useState(false);
+     console.log(showIn,"auth showin");
 
     const login = (user, token) => {
         setAuth({ user, token });
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout }}>
+        <AuthContext.Provider value={{ auth, login, logout,showIn,setShowIn }}>
             {children}
         </AuthContext.Provider>
     );

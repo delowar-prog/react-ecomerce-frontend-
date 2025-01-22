@@ -16,7 +16,7 @@ const ProductCarousel = ({filteredProducts,loading}) => {
                 <div className="w-full px-6 mx-auto">
         {loading ? (
           <div className="flex space-x-4">
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 4 }).map((_, index) => (
               <Skeleton key={index} className="h-64 w-48" />
             ))}
           </div>
@@ -29,18 +29,22 @@ const ProductCarousel = ({filteredProducts,loading}) => {
           >
             <CarouselContent>
               {filteredProducts.slice(0,5).map((product) => (
-                <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4">
                   <div className="">
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-lg font-bold">{product.name}</CardTitle>
                       </CardHeader>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
+                      <CardContent className=" flex flex-col items-center justify-center space-y-4 p-6">
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="object-cover h-full w-full"
+                          className="object-cover h-48 w-full"
                         />
+                        <div className="text-center space-y-1">
+                        <h1 className="text-xl font-semibold text-gray-800">{product?.title}</h1>
+                        <h1 className="text-sm text-gray-600">{product.brand}</h1>
+                        </div>
                       </CardContent>
                       <CardFooter>
                         <span className="text-sm text-gray-600">{product.price}</span>

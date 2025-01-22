@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Ghost, Moon, Sun } from "lucide-react";
 import { useTheme } from "../../context/ThemeProvider";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogin } from "react-icons/ai";
@@ -11,12 +11,16 @@ import { FaSliders } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { AuthContext } from "../../context/AuthProvider";
 import { SidebarTrigger } from "../ui/sidebar"; 
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
-  const [showIn, setShowIn] = useState(false);
-  const { auth, logout } = useContext(AuthContext);
+  const {showIn, setShowIn, auth, logout} = useContext(AuthContext);
+  const[showProfile, setShowProfile] = useState(false);
+console.log(showIn,"nav show")
   const dark = theme === "dark";
+
+  const location = useLocation();
 
   return (
     <div className="sticky z-50 py-2 top-0 border-b w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -25,8 +29,8 @@ const Navbar = () => {
     
         <div className="flex-1 flex justify-center items-center">
           <div className="flex gap-4 justify-between items-center text-base">
-            <Link to="#">Home</Link>
-            <Link to="#">Collection</Link>
+            <Link to="/">Home</Link>
+            <Link to="/collections">Collection</Link>
             <Link to="#">About</Link>
             <Link to="#">Contact</Link>
           </div>
@@ -35,37 +39,27 @@ const Navbar = () => {
        
         <div className="flex items-center gap-4">
          
-          <div className={`${showIn ? "flex items-center gap-2 relative" : "hidden"}`}>
-            <Input type="text" placeholder="search" className="" />
-            <button className="flex items-center absolute right-2 top-1/2 -translate-y-1/2">
-              <MdSearch size={24} />
-            </button>
-          </div>
           <button
-            onClick={() => setShowIn(true)}
-            className={`${showIn ? "hidden" : "flex items-center gap-2"}`}
+            onClick={() => setShowIn(!showIn)}
+            className={ "flex items-center gap-2"}
           >
             <MdSearch size={24} />
           </button>
-          <button
-            onClick={() => setShowIn(false)}
-            className={`${!showIn ? "hidden" : "flex items-center gap-2"}`}
-          >
-            <MdOutlineCancel size={24} />
-          </button>
-
-        
-       
-
           
           {auth?.user ? (
             <div className="flex items-center gap-2">
-              <Link to="/dashboard" className="text-base font-semibold">
+             <div className="flex items-center gap-2 relative">
+             <button onClick={()=>setShowProfile(!showProfile)} className="text-base font-semibold">
                 <CgProfile />
-              </Link>
-              <button onClick={logout} className="text-base font-semibold">
-                <CiLogout size={20} />
               </button>
+              <div className={`${showProfile ? "flex flex-col gap-2 absolute top-10 right-0 bg-white text-black p-2 rounded-md shadow-md" : "hidden"}`}>
+                <ul>
+                  <li>dashboard</li>
+                  <li>order</li>
+                  <li>logout</li>
+                </ul>
+              </div>
+             </div>
             </div>
           ) : (
             <Link to="/login" className="text-base font-semibold">
