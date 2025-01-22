@@ -3,11 +3,17 @@ import { Input } from "../ui/input";
 import { MdSearch } from "react-icons/md";
 import apiCall from "@/api/axiosInstance";
 import Searchbar from "../Searchbar/Searchbar";
+import CollectionCard from "./CollectionCard";
+import Pagination from "@/common/Pagination";
 
 const Collections = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState(null); // Track the active category
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [meta, setMeta] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const fetchData = async () => {
     try {
@@ -20,22 +26,43 @@ const Collections = () => {
     }
   };
 
+  const fetchedProducts = async (page = 1) => {
+    try {
+      const response = await apiCall("get", `/products?page=${page}?select=${activeCategory}`);
+      setProducts(response?.data?.data || []);
+      setMeta(response?.data?.meta || {});
+      setCurrentPage(response?.data?.meta?.current_page || 1);
+      setLastPage(response?.data?.meta?.last_page || 1);
+    } catch (error) {
+      console.error("Error fetching products:", error.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchedProducts(currentPage);
   }, []);
 
   const handleCategoryClick = (category) => {
-    setActiveCategory(category.id); // Set the active category
+    setActiveCategory(category.id);
     console.log("Selected Category:", category.name);
-    // You can perform further actions here, like filtering items or making API calls
+  };
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= lastPage) {
+      setCurrentPage(page);
+      fetchedProducts(page); 
+    }
   };
 
   return (
     <div>
-      <Searchbar/>
-      <div className="flex justify-between">
-        <div>
-          <h1 className="text-center text-xl py-4">Filter</h1>
+      <Searchbar />
+      <div className="flex  gap-10 ">
+        <div className="flex flex-col gap-3 py-4">
+          <h1 className="text-center text-xl py-2 border rounded-md">Filter</h1>
           <div className="border p-5 flex flex-col items-center">
             <h1 className="text-lg border-b py-2">Categories</h1>
             <ul className="mt-4">
@@ -55,7 +82,19 @@ const Collections = () => {
             </ul>
           </div>
         </div>
-        <div>Items</div>
+    <div className="flex flex-col gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 py-4 ">
+          {products.map((product) => (
+            <CollectionCard key={product.id} product={product} />
+          ))}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          lastPage={lastPage}
+          onPageChange={handlePageChange}
+          meta={meta}
+        />
+    </div>
       </div>
     </div>
   );
