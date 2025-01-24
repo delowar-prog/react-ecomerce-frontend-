@@ -7,6 +7,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { MdSearch } from "react-icons/md";
 import { Input } from "../ui/input";
 import { MdOutlineCancel } from "react-icons/md";
+import { FiShoppingCart } from "react-icons/fi";
 import { FaSliders } from "react-icons/fa6"; 
 import { CiLogout } from "react-icons/ci";
 import { AuthContext } from "../../context/AuthProvider";
@@ -15,9 +16,9 @@ import { Button } from "../ui/button";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
-  const {showIn, setShowIn, auth, logout} = useContext(AuthContext);
+  const {showIn, setShowIn, auth, logout,cartCount} = useContext(AuthContext);
   const[showProfile, setShowProfile] = useState(false);
-console.log(showIn,"nav show")
+console.log(cartCount,"cart")
   const dark = theme === "dark";
 
   const location = useLocation();
@@ -47,20 +48,39 @@ console.log(showIn,"nav show")
           </button>
           
           {auth?.user ? (
-            <div className="flex items-center gap-2">
-             <div className="flex items-center gap-2 relative">
-             <button onClick={()=>setShowProfile(!showProfile)} className="text-base font-semibold">
-                <CgProfile />
-              </button>
-              <div className={`${showProfile ? "flex flex-col gap-2 absolute top-10 right-0 bg-white text-black p-2 rounded-md shadow-md" : "hidden"}`}>
-                <ul>
-                  <li>dashboard</li>
-                  <li>order</li>
-                  <li>logout</li>
-                </ul>
-              </div>
-             </div>
-            </div>
+          <div className="flex items-center gap-2 relative">
+          <div className="relative flex items-center">
+            <button className="text-xl flex items-center justify-center">
+              <FiShoppingCart size={18} />
+            </button>
+            {/* Badge */}
+            <span className="absolute -top-4 -right-1 bg-red-600 text-white text-xs font-bold px-1 py-1 rounded-full">
+              {cartCount}
+            </span>
+          </div>
+          <button
+            onClick={() => setShowProfile(!showProfile)}
+            className="text-base font-semibold"
+          >
+            <CgProfile />
+          </button>
+          <div
+            className={`${
+              showProfile
+                ? "flex flex-col gap-2 absolute top-10 right-0 bg-white text-black p-2 rounded-md shadow-md"
+                : "hidden"
+            }`}
+          >
+            <ul>
+              <li>dashboard</li>
+              <li>order</li>
+              <li>
+                <button onClick={logout}>logout</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
           ) : (
             <Link to="/login" className="text-base font-semibold">
               <AiOutlineLogin size={24} />

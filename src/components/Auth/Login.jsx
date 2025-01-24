@@ -11,8 +11,8 @@ const LoginPage = () => {
     const onSubmit = async(data) => {
       try{
         const response = await apiCall('post','/login',data);
-        console.log('Login Successful:',response);
-        login(response.user.name,response.token);
+        console.log('Login Successful:',response.user);
+        login(response.user,response.token);
         navigate('/');
       }
       catch(error){
