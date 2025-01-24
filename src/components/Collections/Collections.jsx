@@ -28,7 +28,7 @@ const Collections = () => {
 
   const fetchedProducts = async (page = 1) => {
     try {
-      const response = await apiCall("get", `/products?page=${page}?select=${activeCategory}`);
+      const response = await apiCall("get", `/products?page=${page}&select=${activeCategory||0}`);
       setProducts(response?.data?.data || []);
       setMeta(response?.data?.meta || {});
       setCurrentPage(response?.data?.meta?.current_page || 1);
@@ -43,7 +43,7 @@ const Collections = () => {
   useEffect(() => {
     fetchData();
     fetchedProducts(currentPage);
-  }, []);
+  }, [activeCategory, currentPage]);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category.id);
