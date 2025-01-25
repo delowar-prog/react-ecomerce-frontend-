@@ -8,6 +8,7 @@ import Register from './components/Auth/Register'
 import Collections from './components/Collections/Collections'
 import { ProductDetails } from '/src/components/ProductDetails/ProductDetails'
 import CartInfo from './components/CartInfo/CartInfo'
+import Dashboard from './components/dashboard/Dashboard'
 function App() {
 
   return (
@@ -18,6 +19,7 @@ function App() {
     <Routes>
     <Route path='/login' element={<Login/>}/>
     <Route path='/register' element={<Register/>}/>
+    <Route path='/dashboard' element={<Dashboard/>}></Route>
     <Route path='/' element={<Home/>}/>
     <Route path='/collections' element={<Collections/>}/>
     <Route path='/product/:id' element={<ProductDetails/>}/>

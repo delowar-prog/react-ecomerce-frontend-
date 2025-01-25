@@ -11,7 +11,6 @@ import Searchbar from "../Searchbar/Searchbar";
 const Home = () => {
     const [user, setUser] = useState(null);
     const {showIn} = useContext(AuthContext);
-    console.log(showIn,"show")
     return (
         <div>
             {
