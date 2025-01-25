@@ -43,11 +43,10 @@ export const AuthProvider = ({ children }) => {
     const fetchedCartCount = async() => {
         try{
             const response = await apiCall('GET',`product-carts?user_id=${auth?.user?.id}`)
-            console.log(response,"cart")
+          
             setCart(response.data);
             setCartCount(response.data.length);
-            console.log(response.data);
-            console.log(cartCount,"cart count")
+           
 
         }
         catch(e){
@@ -55,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
     
-
+  console.log(cart,'cart');
     
     const logout = () => {
         setAuth({ user: null, token: null });

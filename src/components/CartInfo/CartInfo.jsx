@@ -1,33 +1,44 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import AuthContext from "@/context/AuthProvider";
+import apiCall from "@/api/axiosInstance";
+import { Link } from "react-router-dom";
 
 const CartInfo = () => {
-  // Cart data
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: "Mobile Phone",
-      image: "https://via.placeholder.com/100", // Replace with actual image path
-      price: 17000,
-      quantity: 1,
-    },
-  ]);
+  const [currentCarts, setCurrentCarts] = useState([]);
+  const { cart,setCartCount, setCart } = useContext(AuthContext);
 
-  // Update quantity
+  useEffect(() => {
+    setCurrentCarts(cart);
+  }, [cart]);
+
+  console.log(currentCarts,"currentcarts")
+
+  const removeItem = async (id) => {
+    try {
+      const response = await apiCall("DELETE", `/product-carts/${id}`);
+      console.log("Delete response:", response);
+  
+      setCart((prev)=>prev.filter(item=> item.id !==id));
+      setCartCount((prev)=>prev-1);
+      setCurrentCarts((prevCarts) => prevCarts.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete cart item:", error);
+      alert("Failed to delete the cart item. Please try again.");
+    }
+  };
+  
+  
+
   const updateQuantity = (id, quantity) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id ? { ...item, quantity: Number(quantity) } : item
+    setCurrentCarts((prevCarts) =>
+      prevCarts.map((item) =>
+        item.id === id ? { ...item, quantity: parseInt(quantity, 10) } : item
       )
     );
   };
 
-  // Remove item
-  const removeItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
-
   // Calculate totals
-  const subTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const subTotal = currentCarts.reduce((total, item) => total + item.price * item.quantity, 0);
   const tax = subTotal * 0.21; // 21% tax
   const grandTotal = subTotal + tax;
 
@@ -46,11 +57,11 @@ const CartInfo = () => {
           </tr>
         </thead>
         <tbody>
-          {cart.map((item) => (
+          {currentCarts.map((item) => (
             <tr key={item.id} className="text-center">
-              <td className="border border-gray-300 p-2">{item.name}</td>
+              <td className="border border-gray-300 p-2">{item.product.title}</td>
               <td className="border border-gray-300 p-2">
-                <img src={item.image} alt={item.name} className="w-16 h-16" />
+                <img src={item?.product?.image} alt={item.name} className="w-16 h-16" />
               </td>
               <td className="border border-gray-300 p-2">Tk. {item.price}</td>
               <td className="border border-gray-300 p-2">
@@ -61,12 +72,6 @@ const CartInfo = () => {
                   onChange={(e) => updateQuantity(item.id, e.target.value)}
                   className="w-12 border border-gray-300 text-center"
                 />
-                <button
-                  onClick={() => updateQuantity(item.id, item.quantity)}
-                  className="ml-2 bg-gray-800 text-white px-3 py-1 rounded"
-                >
-                  Update
-                </button>
               </td>
               <td className="border border-gray-300 p-2">
                 Tk. {item.price * item.quantity}
@@ -100,7 +105,7 @@ const CartInfo = () => {
         </div>
         <div className="flex justify-between mt-4">
           <button className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
-            Continue Shopping
+            <Link to='/collections'>Continue Shopping</Link>
           </button>
           <button className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
             Checkout!
