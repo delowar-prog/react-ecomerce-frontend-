@@ -22,10 +22,7 @@ const router = createBrowserRouter([
           path:'/register',
           element:<Register></Register>
         },
-        {
-          path:'/product/:id',
-          element:<ProductDetails></ProductDetails>
-        },
+        
       ]
     },
   ]);
