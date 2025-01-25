@@ -6,6 +6,8 @@ import Home from './components/Home/Home'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Collections from './components/Collections/Collections'
+import { ProductDetails } from '/src/components/ProductDetails/ProductDetails'
+import CartInfo from './components/CartInfo/CartInfo'
 function App() {
 
   return (
@@ -18,6 +20,8 @@ function App() {
     <Route path='/register' element={<Register/>}/>
     <Route path='/' element={<Home/>}/>
     <Route path='/collections' element={<Collections/>}/>
+    <Route path='/product/:id' element={<ProductDetails/>}/>
+    <Route path='/cart' element={<CartInfo/>}/>
     </Routes>
     </Layout>
      </ThemeProvider>
