@@ -80,7 +80,7 @@ const HomeCarousel = () => {
                     <div className="p-1 w-full">
                       <Card className="shadow-none border-none outline-none">
                         <CardContent className="flex w-full shadow-none items-center justify-center">
-                          <Skeleton className="min-w-[500px] h-full" />
+                          <Skeleton  className="min-w-[400px] h-full" />
                         </CardContent>
                       </Card>
                     </div>

@@ -38,9 +38,11 @@ const CartInfo = () => {
   };
 
   // Calculate totals
+  console.log(currentCarts);
   const subTotal = currentCarts.reduce((total, item) => total + item.price * item.quantity, 0);
-  const tax = subTotal * 0.21; // 21% tax
-  const grandTotal = subTotal + tax;
+  const tax = subTotal *currentCarts.reduce((total, item) => total + Number(item.product.discount) * item.quantity, 0)/100 ;
+   const taxInNum = Number(tax);
+  const grandTotal = subTotal + taxInNum;
 
   return (
     <div className="p-6">
@@ -108,7 +110,7 @@ const CartInfo = () => {
             <Link to='/collections'>Continue Shopping</Link>
           </button>
           <button className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
-            Checkout!
+            <Link to='/checkout'>Checkout!</Link>
           </button>
         </div>
       </div>
