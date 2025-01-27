@@ -34,6 +34,23 @@ const CollectionCard = ({ product, userId }) => {
     try {
       const response = await apiCall("POST", "/product-carts", data);
       setCartCount(prev=> prev+1)
+      setCart((prev) => {
+        const isProductInCart = prev.some((item) => item.product_id === data.product_id);
+        if (isProductInCart) {
+          return prev; // If product is already in the cart, don't add it again
+        }
+        return [
+          ...prev,
+          {
+            id: response?.data?.id,
+            title:response?.data?.title,
+            product_id: data.product_id,
+            user_id: data.user_id,
+            quantity: data.quantity,
+            price: data.price,
+          },
+        ];
+      });
       alert("Product added to cart successfully!");
     } catch (error) {
       console.error("Error adding to cart:", error.response?.data || error.message);

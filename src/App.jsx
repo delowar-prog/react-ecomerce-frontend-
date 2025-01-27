@@ -9,6 +9,8 @@ import Collections from './components/Collections/Collections'
 import { ProductDetails } from '/src/components/ProductDetails/ProductDetails'
 import CartInfo from './components/CartInfo/CartInfo'
 import Dashboard from './components/dashboard/Dashboard'
+import { ToastContainer } from 'react-toastify'
+import Shipping from './components/Shipping/Shipping'
 function App() {
 
   return (
@@ -16,6 +18,7 @@ function App() {
     <BrowserRouter>
      <ThemeProvider defaultTheme='dark'>
     <Layout>
+      <ToastContainer/>
     <Routes>
     <Route path='/login' element={<Login/>}/>
     <Route path='/register' element={<Register/>}/>
@@ -24,6 +27,7 @@ function App() {
     <Route path='/collections' element={<Collections/>}/>
     <Route path='/product/:id' element={<ProductDetails/>}/>
     <Route path='/cart' element={<CartInfo/>}/>
+    <Route path='/checkout' element={<Shipping/>}/>
     </Routes>
     </Layout>
      </ThemeProvider>
