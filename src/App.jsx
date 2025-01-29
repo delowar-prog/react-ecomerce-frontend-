@@ -11,6 +11,7 @@ import CartInfo from './components/CartInfo/CartInfo'
 import Dashboard from './components/dashboard/Dashboard'
 import { ToastContainer } from 'react-toastify'
 import Shipping from './components/Shipping/Shipping'
+import OrderForm from './components/Order/OrderForm'
 function App() {
 
   return (
@@ -27,7 +28,7 @@ function App() {
     <Route path='/collections' element={<Collections/>}/>
     <Route path='/product/:id' element={<ProductDetails/>}/>
     <Route path='/cart' element={<CartInfo/>}/>
-    <Route path='/checkout' element={<Shipping/>}/>
+    <Route path='/checkout' element={<OrderForm/>}/>
     </Routes>
     </Layout>
      </ThemeProvider>

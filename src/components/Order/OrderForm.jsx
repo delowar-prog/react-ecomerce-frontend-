@@ -2,15 +2,14 @@ import React from "react";
 
 const OrderForm = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between p-8 space-y-6 md:space-y-0 md:space-x-6 bg-gray-100 rounded-lg shadow-lg">
-      {/* Left: Order Form */}
-      <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Order Form</h2>
-        <p className="text-gray-600 mb-6">Please fill out the form correctly.</p>
+    <div className="flex flex-col md:flex-row justify-between p-8 space-y-6 md:space-y-0 md:space-x-6 rounded-lg shadow-lg">
+      <div className="w-full md:w-1/2 bg-white dark:bg-gray-600 p-6 rounded-lg shadow-md">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Order Form</h2>
+        <p className="text-gray-600 dark:text-gray-200 mb-6">Please fill out the form correctly.</p>
 
         <form className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-1">
+            <label className="block text-sm font-semibold text-gray-600 dark:text-gray-200 mb-1">
               Name (Who Receives the Product)
             </label>
             <input
@@ -21,7 +20,7 @@ const OrderForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-1">
+            <label className="block text-sm font-semibold text-gray-600 dark:text-gray-200 mb-1">
               Shipping Address
             </label>
             <textarea
@@ -32,7 +31,7 @@ const OrderForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-1">
+            <label className="block text-sm font-semibold text-gray-600 dark:text-gray-200 mb-1">
               Mobile Number
             </label>
             <input
@@ -43,7 +42,7 @@ const OrderForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-1">
+            <label className="block text-sm font-semibold text-gray-600 dark:text-gray-200 mb-1">
               City
             </label>
             <input
@@ -55,7 +54,7 @@ const OrderForm = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-bold py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full bg-blue-500 dark:bg-gray-500 text-white font-bold py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             Submit
           </button>
@@ -63,13 +62,13 @@ const OrderForm = () => {
       </div>
 
       {/* Right: Product Information */}
-      <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
+      <div className="w-full md:w-1/2 bg-white dark:bg-gray-600 p-6 rounded-lg shadow-md">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
           Product Information
         </h2>
 
-        <table className="w-full text-sm text-left text-gray-600 border border-gray-200">
-          <thead className="bg-gray-200">
+        <table className="w-full text-sm text-left text-gray-600 dark:text-gray-200 border border-gray-200">
+          <thead className="bg-gray-200 dark:bg-gray-500">
             <tr>
               <th className="p-2 border border-gray-300">#</th>
               <th className="p-2 border border-gray-300">Pro ID</th>
@@ -97,8 +96,8 @@ const OrderForm = () => {
           </tbody>
         </table>
 
-        <div className="mt-6 text-gray-800">
-          <p className="flex justify-between border-t py-2">
+        <div className="mt-6 text-gray-800 dark:text-gray-200">
+          <p className="flex justify-between border-t dark:border-gray-200 py-2">
             <span>Sub Total:</span> <span>Tk. 17,000</span>
           </p>
           <p className="flex justify-between py-2">

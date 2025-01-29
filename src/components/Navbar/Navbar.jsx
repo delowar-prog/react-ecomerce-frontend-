@@ -21,8 +21,6 @@ const Navbar = () => {
 
   const dark = theme === "dark";
 
-
-
   return (
     <div className="sticky z-50 py-2 top-0 border-b w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto container flex justify-between items-center h-16 px-4 relative">
