@@ -66,11 +66,13 @@ const CollectionCard = ({ product, userId }) => {
           <CardDescription className="text-sm text-gray-500">Card Description</CardDescription>
         </CardHeader>
         <CardContent>
-          <img
+        <Link to={`/product/${product?.id}`} >
+        <img
             src={product?.image}
             alt={product?.title}
             className="h-[300px] object-cover w-full rounded-lg"
           />
+        </Link>
         </CardContent>
         <CardFooter className="flex items-center justify-between p-4 bg-gray-50 border-t">
           {/* Product Price */}
