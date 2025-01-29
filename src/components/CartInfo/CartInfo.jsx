@@ -110,7 +110,7 @@ const CartInfo = () => {
             <Link to='/collections'>Continue Shopping</Link>
           </button>
           <button className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
-            Checkout!
+            <Link to='/checkout'>Checkout!</Link>
           </button>
         </div>
       </div>
