@@ -10,11 +10,21 @@ const CreateBrand = ({setActiveContent}) => {
         }
     })
     const onSubmit = async (data) => {
-        try {
-            const formData = new FormData();
-            formData.append('brandName', data.brandName);
-            formData.append('brandimg', data.brandimg[0]); // File input (first file)
+        const formData = new FormData();
+        formData.append("brandName", data.brandName);
     
+        // Append file only if it exists
+        if (data.brandimg && data.brandimg.length > 0) {
+            formData.append("brandimg", data.brandimg[0]);
+        } else {
+            console.error('No file selected for brandimg');
+        }
+    
+        console.log(formData.brandimg);
+        // Log all FormData entries for debugging
+      
+    
+        try {
             const response = await apiCall('post', '/brands', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -32,10 +42,11 @@ const CreateBrand = ({setActiveContent}) => {
         }
     };
     
+    
 
     return (
         <div>
-             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+             <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="space-y-4">
             <div>
                 <label htmlFor="name" className="block font-medium">
                     Brand Name:

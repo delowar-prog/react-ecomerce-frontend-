@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeProvider'
 import Layout from './components/Layouts/Layout'
@@ -12,37 +11,29 @@ import Dashboard from './components/dashboard/Dashboard'
 import { ToastContainer } from 'react-toastify'
 import Shipping from './components/Shipping/Shipping'
 import OrderForm from './components/Order/OrderForm'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+
 function App() {
-
   return (
-    <>
     <BrowserRouter>
-     <ThemeProvider defaultTheme='dark'>
-    <Layout>
-      <ToastContainer/>
-    <Routes>
-    <Route path='/login' element={<Login/>}/>
-    <Route path='/register' element={<Register/>}/>
-    <Route path='/dashboard' element={<Dashboard/>}></Route>
-    <Route path='/' element={<Home/>}/>
-    <Route path='/collections' element={<Collections/>}/>
-    <Route path='/product/:id' element={<ProductDetails/>}/>
-    <Route path='/cart' element={<CartInfo/>}/>
-    <Route path='/checkout' element={<OrderForm/>}/>
-    </Routes>
-    </Layout>
-     </ThemeProvider>
-    </BrowserRouter>
-      {/* <BrowserRouter>
+      <ThemeProvider defaultTheme='dark'>
+        <Layout>
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/collections" element={<Collections />} />
 
-  <Layout>
-    <Routes>
-    <Route path="/" element={<Home/>}/>
-    </Routes>
-  </Layout>
- 
-  </BrowserRouter> */}
-      </>
+            {/* Private Routes */}
+            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="/product/:id" element={<PrivateRoute><ProductDetails /></PrivateRoute>} />
+            <Route path="/cart" element={<PrivateRoute><CartInfo /></PrivateRoute>} />
+            <Route path="/checkout" element={<PrivateRoute><OrderForm /></PrivateRoute>} />
+          </Routes>
+        </Layout>
+      </ThemeProvider>
+    </BrowserRouter>
   )
 }
 

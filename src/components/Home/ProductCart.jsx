@@ -48,8 +48,11 @@ const ProductCart = () => {
                 <CarouselItem key={index}>
                   <div className="p-1 w-full">
                     <Card className="shadow-none border-none outline-none">
-                      <CardContent className="flex w-full shadow-none items-center justify-center">
-                        <Skeleton className="w-screen h-[300px]" />
+                    <CardContent className=" flex flex-col gap-3 w-full shadow-none items-center justify-center">
+                          <Skeleton className="h-4 w-[800px]" />
+                            <Skeleton className="h-4 w-[800px]" />
+                              <Skeleton className="h-4 w-[800px]" />
+                                <Skeleton className="h-4 w-[800px]" />
                       </CardContent>
                     </Card>
                   </div>
@@ -76,8 +79,11 @@ const ProductCart = () => {
                 <CarouselItem key={index}>
                   <div className="p-1 w-full">
                     <Card className="shadow-none border-none outline-none">
-                      <CardContent className="flex w-full shadow-none items-center justify-center">
-                        <Skeleton className="w-screen h-[300px]" />
+                      <CardContent className=" flex flex-col gap-3 w-full shadow-none items-center justify-center">
+                          <Skeleton className="h-4 w-[800px]" />
+                            <Skeleton className="h-4 w-[800px]" />
+                              <Skeleton className="h-4 w-[800px]" />
+                                <Skeleton className="h-4 w-[800px]" />
                       </CardContent>
                     </Card>
                   </div>

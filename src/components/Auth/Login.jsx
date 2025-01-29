@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { replace, useLocation, useNavigate } from "react-router-dom";
 import apiCall from "../../api/axiosInstance";
 import AuthContext from "../../context/AuthProvider";
 
@@ -8,12 +8,14 @@ const LoginPage = () => {
     const {register,handleSubmit,formState:{errors}} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const onSubmit = async(data) => {
       try{
         const response = await apiCall('post','/login',data);
         console.log('Login Successful:',response.user);
         login(response.user,response.token);
-        navigate('/');
+        navigate(from,{replace:true});
       }
       catch(error){
         console.error('Login Failed:', error.response?.data || error.message);

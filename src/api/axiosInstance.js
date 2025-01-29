@@ -26,13 +26,23 @@ axiosInstance.interceptors.request.use(
 
 const apiCall = async (method, url, data = null, params = null) => {
     try {
-        const response = await axiosInstance({
+        const config = {
             method,
             url,
             data,
             params,
-        });
-        return response.data; // Return only the data part of the response
+            headers: {
+                'Content-Type': 'application/json', // Default Content-Type
+            },
+        };
+
+        // 'multipart/form-data' if data is FormData
+        if (data instanceof FormData) {
+           config.headers['Content-Type'] = 'multipart/form-data'
+        }
+
+        const response = await axiosInstance(config);
+        return response.data;
     } catch (error) {
         console.error('API Error:', error.response || error.message);
         throw error.response ? error.response.data : error.message;

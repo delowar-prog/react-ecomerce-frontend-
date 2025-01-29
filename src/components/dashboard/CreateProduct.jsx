@@ -6,45 +6,44 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const CreateProduct = ({ setActiveContent }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        defaultValues:{
-
+        defaultValues: {
+         image: ''
         }
     });
-    const[categories, setCategories] = useState([]);
-    const[brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true)
-    
+
     const onSubmit = async (data) => {
+        const formData = new FormData();
+        // For a single file
+       
+        if (data.image && data.image[0]) {
+            console.log('Appending image to formData:', data.image[0]);
+            formData.append('image', data.image[0]);
+        }
+
+        // Add other form fields to FormData
+        Object.keys(data).forEach((key) => {
+            if (key !== "image") formData.append(key, data[key]);
+        });
+
+        console.log(formData);
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+            // For files, `value` will log something like File {name: ..., size: ...}
+        }
+
         try {
-            // Create a FormData object
-            const formData = new FormData();
-    
-            
-            formData.append('title', data.title);
-            formData.append('short_des', data.short_des || ''); 
-            formData.append('price', data.price);
-            formData.append('discount', data.discount || 0);
-            formData.append('discount_price', data.discount_price || 0);
-            formData.append('stock', data.stock);
-            formData.append('star', data.star || 0);
-            formData.append('remarks', data.remarks || '');
-            formData.append('category_id', data.category_id);
-            formData.append('brand_id', data.brand_id);
-            formData.append('image', data.image[0]); 
-    
-           
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}:`, value);
-            }
-    
+
             // Make the API call
-            const response = await apiCall('post','/products', formData);
-    
+            const response = await apiCall('post', '/products', formData);
+
             // Notify success
             toast.success('Product created successfully!', {
                 position: 'top-right',
             });
-    
+
             setActiveContent('product');
         } catch (error) {
             console.error('Error creating product:', error.response?.data || error.message);
@@ -54,8 +53,8 @@ const CreateProduct = ({ setActiveContent }) => {
             console.log(data.image[0]);
         }
     };
-    
-    
+
+
 
     const fetchedCategories = async () => {
         try {
@@ -70,7 +69,7 @@ const CreateProduct = ({ setActiveContent }) => {
         }
     };
 
-    
+
     const fetchedBrands = async () => {
         try {
             setLoading(true);
@@ -85,13 +84,13 @@ const CreateProduct = ({ setActiveContent }) => {
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchedCategories();
         fetchedBrands();
-    },[])
+    }, [])
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 bg-white p-6 rounded shadow-md">
+        <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className="space-y-4 bg-white p-6 rounded shadow-md">
             {/* Title */}
             <div>
                 <label htmlFor="title" className="block font-medium">Title:</label>
@@ -122,9 +121,9 @@ const CreateProduct = ({ setActiveContent }) => {
                 <label htmlFor="price" className="block font-medium">Price:</label>
                 <input
                     type="number"
-                    step="0.01"
+
                     id="price"
-                    {...register('price', { required: 'Price is required', valueAsNumber: true })}
+                    {...register('price', { required: 'Price is required', })}
                     className={`w-full border px-4 py-2 rounded ${errors.price ? 'border-red-500' : ''}`}
                 />
                 {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
@@ -135,9 +134,9 @@ const CreateProduct = ({ setActiveContent }) => {
                 <label htmlFor="discount" className="block font-medium">Discount (%):</label>
                 <input
                     type="number"
-                    step="0.01"
+
                     id="discount"
-                    {...register('discount', { min: 0, max: 100, valueAsNumber: true })}
+                    {...register('discount', { min: 0, max: 100, })}
                     className={`w-full border px-4 py-2 rounded ${errors.discount ? 'border-red-500' : ''}`}
                 />
                 {errors.discount && (
@@ -150,9 +149,9 @@ const CreateProduct = ({ setActiveContent }) => {
                 <label htmlFor="discount_price" className="block font-medium">Discount Price:</label>
                 <input
                     type="number"
-                    step="0.01"
+
                     id="discount_price"
-                    {...register('discount_price', { valueAsNumber: true })}
+                    {...register('discount_price',)}
                     className="w-full border px-4 py-2 rounded"
                 />
             </div>
@@ -160,8 +159,17 @@ const CreateProduct = ({ setActiveContent }) => {
             {/* Image */}
             <div>
                 <label htmlFor="image" className="block font-medium">Image:</label>
-               
-              <input type='file' {...register('image')}/>
+
+                <input
+              {...register("image", { required: "image is required" })}
+              className={`input input-sm ${
+                errors.image ? "border-red-500" : "border-gray-200"
+              }`}
+              type="file"
+              name="image"
+              accept="image/*"
+              placeholder="Upload image"
+            />
 
 
             </div>
