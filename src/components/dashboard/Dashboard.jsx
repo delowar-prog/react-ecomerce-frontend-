@@ -8,6 +8,7 @@ import CreateProduct from './CreateProduct';
 import AuthContext from '@/context/AuthProvider';
 import BrandList from './BrandList';
 import CreateBrand from './CreateBrand';
+import ProductDetails from './ProductDetails';
 
 
 
@@ -28,7 +29,7 @@ const Dashboard = () => {
                     <div className="px-5">
                         <IoMdAddCircleOutline size={24} />
                     </div>
-                    Add Category
+                     Category
                 </div>
 
                 <div 
@@ -38,7 +39,7 @@ const Dashboard = () => {
                     <div className="px-5">
                         <IoMdAddCircleOutline size={24} />
                     </div>
-                    Add Products
+                     Products
                 </div>
                 <div 
                     className={`cursor-pointer ${activeContent === 'brand' ? "bg-purple-200" : ""} hover:bg-gray-200 py-2 border-2 flex text-center items-center justify-start gap-2`} 
@@ -47,7 +48,17 @@ const Dashboard = () => {
                     <div className="px-5">
                         <IoMdAddCircleOutline size={24} />
                     </div>
-                    Add Brand
+                     Brand
+                </div>
+
+                <div 
+                    className={`cursor-pointer ${activeContent === 'details' ? "bg-purple-200" : ""} hover:bg-gray-200 py-2 border-2 flex text-center items-center justify-start gap-2`} 
+                    onClick={() => setActiveContent('details')}
+                >
+                    <div className="px-5">
+                        <IoMdAddCircleOutline size={24} />
+                    </div>
+                    Add Product Details
                 </div>
             </>
             :
@@ -108,6 +119,7 @@ const Dashboard = () => {
                 {activeContent === 'create-category' && <CreateCategory setActiveContent={setActiveContent}/>}
                 {activeContent === 'create-brand' && <CreateBrand setActiveContent={setActiveContent}/>}
                 {activeContent === 'create-product' && <CreateProduct  setActiveContent={setActiveContent}/>}
+                {activeContent === 'details' && <ProductDetails  setActiveContent={setActiveContent}/>}
             </>
             :
             ""

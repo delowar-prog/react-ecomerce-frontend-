@@ -79,8 +79,11 @@ const HomeCarousel = () => {
                   <CarouselItem key={index}>
                     <div className="p-1 w-full">
                       <Card className="shadow-none border-none outline-none">
-                        <CardContent className="flex w-full shadow-none items-center justify-center">
-                          <Skeleton  className="min-w-[400px] h-full" />
+                        <CardContent className=" flex flex-col gap-3 w-full shadow-none items-center justify-center">
+                          <Skeleton className="h-4 w-[400px]" />
+                          <Skeleton className="h-4 w-[400px]" />
+                          <Skeleton className="h-4 w-[400px]" />
+                          <Skeleton className="h-4 w-[400px]" />
                         </CardContent>
                       </Card>
                     </div>

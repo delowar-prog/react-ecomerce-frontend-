@@ -1,13 +1,12 @@
 import apiCall from '@/api/axiosInstance';
 import React, { createContext, useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({
-        user: {},
-        token: null,
-    });
+    const [auth, setAuth] = useState(null);
+    const [loading,setLoading] = useState(true)
     const [showIn, setShowIn] = useState(false);
     const [cart, setCart] = useState([]);
     const [cartCount, setCartCount] = useState(0);
@@ -25,13 +24,18 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('access_token');
         const user = localStorage.getItem('user'); 
-
+    
         if (token && user) {
             setAuth({
                 user: JSON.parse(user), 
                 token,
             });
+        } else {
+            setAuth({ user: null, token: null });
+           
         }
+    
+        setLoading(false);
     }, []);
 
  
@@ -63,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout, showIn, setShowIn, cart, cartCount, setCart, setCartCount }}>
+        <AuthContext.Provider value={{ auth, login, logout, showIn, setShowIn, cart, cartCount, setCart, setCartCount,loading,setLoading }}>
             {children}
         </AuthContext.Provider>
     );
