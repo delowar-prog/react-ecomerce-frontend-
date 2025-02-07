@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify'
 import Shipping from './components/Shipping/Shipping'
 import OrderForm from './components/Order/OrderForm'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import About from './components/About/About'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/collections" element={<Collections />} />
+            <Route path="/about" element={<About />} />
 
             {/* Private Routes */}
             <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

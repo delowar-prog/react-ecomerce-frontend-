@@ -22,7 +22,32 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
+axiosInstance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async (error) => {
+      const originalRequest = error.config;
+      if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (refreshToken) {
+          try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/refresh-token`, {refreshToken});
+            // don't use axious instance that already configured for refresh token api call
+            const newAccessToken = response.data.accessToken;
+            localStorage.setItem('accessToken', newAccessToken);  //set new access token
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return axios(originalRequest); //recall Api with new token
+          } catch (error) {
+            // Handle token refresh failure
+            // mostly logout the user and re-authenticate by login again
+          }
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 
 const apiCall = async (method, url, data = null, params = null) => {
     try {

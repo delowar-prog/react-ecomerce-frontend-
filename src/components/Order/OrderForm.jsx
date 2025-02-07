@@ -1,6 +1,10 @@
-import React from "react";
+import AuthContext from "@/context/AuthProvider";
+import React, { useContext } from "react";
 
 const OrderForm = () => {
+  const {orderedProducts, setOrderedProducts, finalTotal} = useContext(AuthContext);
+  console.log(finalTotal);
+
   return (
     <div className="flex flex-col md:flex-row justify-between p-8 space-y-6 md:space-y-0 md:space-x-6 rounded-lg shadow-lg">
       <div className="w-full md:w-1/2 bg-white dark:bg-gray-600 p-6 rounded-lg shadow-md">
@@ -79,32 +83,31 @@ const OrderForm = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="p-2 border border-gray-300">1</td>
-              <td className="p-2 border border-gray-300">40a719cc</td>
-              <td className="p-2 border border-gray-300">
-                <img
-                  src="https://via.placeholder.com/50"
-                  alt="Mobile Phone"
-                  className="w-10 h-10 object-cover rounded"
-                />
-              </td>
-              <td className="p-2 border border-gray-300">Mobile Phone</td>
-              <td className="p-2 border border-gray-300">1</td>
-              <td className="p-2 border border-gray-300">Tk. 17,000</td>
-            </tr>
+      {
+        orderedProducts.map((product,index)=>(
+          <tr key={index}>
+          <td className="p-2 border border-gray-300">1</td>
+          <td className="p-2 border border-gray-300"></td>
+          <td className="p-2 border border-gray-300">
+            <img
+              src="https://via.placeholder.com/50"
+              alt="Mobile Phone"
+              className="w-10 h-10 object-cover rounded"
+            />
+          </td>
+          <td className="p-2 border border-gray-300">{product.name}</td>
+          <td className="p-2 border border-gray-300">{product.quantity}</td>
+          <td className="p-2 border border-gray-300">{product.total}</td>
+        </tr>
+        ))
+      }
           </tbody>
         </table>
 
         <div className="mt-6 text-gray-800 dark:text-gray-200">
-          <p className="flex justify-between border-t dark:border-gray-200 py-2">
-            <span>Sub Total:</span> <span>Tk. 17,000</span>
-          </p>
-          <p className="flex justify-between py-2">
-            <span>Tax:</span> <span>Tk. 3,570</span>
-          </p>
+     
           <p className="flex justify-between font-bold py-2">
-            <span>Grand Total:</span> <span>Tk. 20,570</span>
+            <span>Grand Total:</span> <span>{finalTotal}</span>
           </p>
         </div>
       </div>

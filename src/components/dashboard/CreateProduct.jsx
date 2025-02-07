@@ -4,15 +4,50 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateProduct = ({ setActiveContent }) => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+const CreateProduct = ({ setActiveContent,updateProduct }) => {
+    const { register, handleSubmit, formState: { errors }, reset,setValue } = useForm({
         defaultValues: {
-         image: ''
-        }
-    });
+          id: updateProduct?.product?.id || "",
+          title: updateProduct?.title || "",
+          short_des: updateProduct?.product?.short_des || "",
+          price: updateProduct?.product?.price || "",
+          discount: updateProduct?.product?.discount || "",
+          discount_price: updateProduct?.product?.discount_price || "",
+          image: updateProduct?.product?.image || "",
+          stock: updateProduct?.product?.stock || "",
+          star: updateProduct?.product?.star || "",
+          remarks: updateProduct?.product?.remarks || "",
+          category_id: updateProduct?.product?.category_id || "",
+          brand_id: updateProduct?.product?.brand_id || "",
+        },
+      });
+      if(updateProduct?.product){
+        setValue('category_id',updateProduct?.product.category_id)
+        setValue('brand_id',updateProduct?.product.brand_id)
+        // setValue('image',URL.createObjectURL(updateProduct.product.image))
+      }
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        if (updateProduct?.product) {
+          // Reset the form with updated product details
+          reset({
+            id: updateProduct?.product?.id || "",
+            title: updateProduct?.product?.title || "",
+            short_des: updateProduct?.product?.short_des || "",
+            price: updateProduct?.product?.price || "",
+            discount: updateProduct?.product?.discount || "",
+            discount_price: updateProduct?.product?.discount_price || "",
+            image: updateProduct?.product?.image || "",
+            stock: updateProduct?.product?.stock || "",
+            star: updateProduct?.product?.star || "",
+            remarks: updateProduct?.product?.remarks || "",
+            category_id: updateProduct?.product?.category_id || "",
+            brand_id: updateProduct?.product?.brand_id || "",
+          });
+        }
+      }, [updateProduct, reset]);
 
     const onSubmit = async (data) => {
         const formData = new FormData();
@@ -37,6 +72,17 @@ const CreateProduct = ({ setActiveContent }) => {
         try {
 
             // Make the API call
+           if(updateProduct){
+            const response = await apiCall('post', `/products/${updateProduct?.product?.id}`, formData);
+
+            // Notify success
+            toast.success('Product updated successfully!', {
+                position: 'top-right',
+            });
+
+            setActiveContent('product');
+           }
+           else{
             const response = await apiCall('post', '/products', formData);
 
             // Notify success
@@ -45,22 +91,22 @@ const CreateProduct = ({ setActiveContent }) => {
             });
 
             setActiveContent('product');
+           }
         } catch (error) {
             console.error('Error creating product:', error.response?.data || error.message);
             toast.error(error.response?.data?.message || 'Creating product failed.', {
                 position: 'top-right',
             });
-            console.log(data.image[0]);
+            
         }
     };
 
-
+ 
 
     const fetchedCategories = async () => {
         try {
             setLoading(true);
             const response = await apiCall('GET', `/categories?all=true`);
-            console.log(response);
             setCategories(response?.data);
         } catch (error) {
             console.error(error);
@@ -74,9 +120,7 @@ const CreateProduct = ({ setActiveContent }) => {
         try {
             setLoading(true);
             const response = await apiCall('GET', `/brands?all=true`);
-            console.log(response);
             setBrands(response?.data);
-            console.log(brands);
         } catch (error) {
             console.error(error);
         } finally {
@@ -97,6 +141,8 @@ const CreateProduct = ({ setActiveContent }) => {
                 <input
                     type="text"
                     id="title"
+                    name='title'
+                    defaultValue={updateProduct?.product?.title}
                     {...register('title', { required: 'Title is required', maxLength: 255 })}
                     className={`w-full border px-4 py-2 rounded ${errors.title ? 'border-red-500' : ''}`}
                 />
@@ -214,12 +260,13 @@ const CreateProduct = ({ setActiveContent }) => {
                 <label htmlFor="category_id" className="block font-medium">Category:</label>
                 <select
                     id="category_id"
+                    
                     {...register('category_id', { required: 'Category is required' })}
                     className={`w-full border px-4 py-2 rounded ${errors.category_id ? 'border-red-500' : ''}`}
                 >
                     <option value="">Select a Category</option>
                     {categories?.map((category) => (
-                        <option key={category.id} value={category.id}>
+                        <option key={category.id}  value={category.id}>
                             {category.name}
                         </option>
                     ))}
@@ -254,7 +301,9 @@ const CreateProduct = ({ setActiveContent }) => {
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-                Create Product
+                {
+                    updateProduct? "Update Product" : "Create Product" 
+                    }
             </button>
         </form>
     );
