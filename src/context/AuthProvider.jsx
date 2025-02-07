@@ -10,13 +10,16 @@ export const AuthProvider = ({ children }) => {
     const [showIn, setShowIn] = useState(false);
     const [cart, setCart] = useState([]);
     const [cartCount, setCartCount] = useState(0);
+    const [orderedProducts, setOrderedProducts]= useState([])
+    const [finalTotal, setFinalTotal] = useState(0)
 
     
     const login = (user, token) => {
-        setAuth({ user, token });
+        setAuth({ user, token});
 
         localStorage.setItem('user', JSON.stringify(user)); 
-        localStorage.setItem('access_token', token); 
+        localStorage.setItem('access_token', token.access_token); 
+        localStorage.setItem('refresh_token',token.refresh_token);
     };
 
 
@@ -31,7 +34,7 @@ export const AuthProvider = ({ children }) => {
                 token,
             });
         } else {
-            setAuth({ user: null, token: null });
+            setAuth(null);
            
         }
     
@@ -61,13 +64,14 @@ export const AuthProvider = ({ children }) => {
   console.log(cart,'cart');
     
     const logout = () => {
-        setAuth({ user: null, token: null });
+        setAuth({ user: null, token:null });
         localStorage.removeItem('user'); 
         localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
     };
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout, showIn, setShowIn, cart, cartCount, setCart, setCartCount,loading,setLoading }}>
+        <AuthContext.Provider value={{ auth, login, logout, showIn, setShowIn, cart, cartCount, setCart, setCartCount,loading,setLoading, orderedProducts, setOrderedProducts, finalTotal, setFinalTotal }}>
             {children}
         </AuthContext.Provider>
     );

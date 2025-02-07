@@ -38,7 +38,7 @@ const Navbar = () => {
           <div className="flex gap-4 text-base">
             <Link to="/">Home</Link>
             <Link to="/collections">Collection</Link>
-            <Link to="#">About</Link>
+            <Link to="/about">About</Link>
             <Link to="#">Contact</Link>
           </div>
         </div>

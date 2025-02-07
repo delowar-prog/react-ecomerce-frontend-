@@ -2,9 +2,11 @@ import apiCall from '@/api/axiosInstance';
 import Pagination from '@/common/Pagination';
 import React, { useEffect, useState } from 'react';
 import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 import { toast } from 'react-toastify';
+import CreateProduct from './CreateProduct';
 
-const List = ({ url, setActiveContent }) => {
+const List = ({ url, setActiveContent, updateProduct, setUpdateProduct,setUpdateCategory, updateCategory }) => {
     const [data, setData] = useState([]);
       const [meta, setMeta] = useState({});
       const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +41,23 @@ const List = ({ url, setActiveContent }) => {
             console.error('Error deleting item:', error);
         }
     };
+
+    const handleUpdateProduct =(product)=>{
+        setUpdateProduct((prev)=>({...prev,product}));
+        console.log(updateProduct);
+        setTimeout(()=>{
+            setActiveContent('create-product');
+        },100)
+    }
+
+    const handleUpdateCategory = (category)=>{
+        setUpdateCategory((prev)=>({...prev,category}));
+        setTimeout(()=>{
+            setActiveContent('create-category');
+        },100)
+    }
     
+   
 
     useEffect(() => {
         fetchedData();
@@ -52,6 +70,7 @@ const List = ({ url, setActiveContent }) => {
 };
 
     return (
+
         <div className="p-6 max-w-5xl mx-auto">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold capitalize">{url}</h1>
@@ -106,17 +125,26 @@ const List = ({ url, setActiveContent }) => {
                                             <td className="px-4 py-2">{item.category}</td>
                                             <td className="px-4 py-2">
                                                 <img
-                                                    src={item.image}
+                                                    src={`${import.meta.env.VITE_BASE_URL}/${item.image}`}
                                                     alt={item.title}
                                                     className="w-16 h-16 rounded object-cover"
                                                 />
                                             </td>
-                                            <td className="px-4 py-2"> <button> <MdDeleteForever size={24}/> </button> </td>
+                                            <td className="px-4 py-2"> <div className='flex items-center'>
+                                            <button onClick={()=>handleDelete(item?.id)}> <MdDeleteForever size={24}/> </button>
+                                            <button className='black' onClick={()=>handleUpdateProduct(item)}> <FaEdit size={24}/> </button>
+                                                </div> </td>
                                         </>
                                     ) : (
                                         <>
                                         <td className="px-4 py-2">{item.name}</td>
-                                        <td className="px-4 py-2"> <button onClick={()=>handleDelete(item?.id)}> <MdDeleteForever size={24}/> </button> </td>
+                                        <td className="px-4 py-2"><div>
+                                            
+                                      <div className="flex items-center">
+                                      <button onClick={()=>handleDelete(item?.id)}> <MdDeleteForever size={24}/> </button>
+                                      <button className='black' onClick={()=>handleUpdateCategory(item)}><FaEdit size={24}/> </button>
+                                      </div>
+                                            </div> </td>
                                         </>
                                     )}
                                 </tr>

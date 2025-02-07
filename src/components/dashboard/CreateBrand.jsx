@@ -1,14 +1,26 @@
 import apiCall from '@/api/axiosInstance';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-const CreateBrand = ({setActiveContent}) => {
-    const {register, handleSubmit, setError,formState:{errors}} = useForm({
+const CreateBrand = ({setActiveContent,updateBrand}) => {
+    const {register, handleSubmit, setError,formState:{errors},reset} = useForm({
         defaultValues:{
             
         }
     })
+    console.log(updateBrand);
+      useEffect(() => {
+            if (updateBrand?.brand) {
+              // Reset the form with updated brand details
+              reset({
+                id: updateBrand?.brand?.id || "",
+                brandName: updateBrand?.brand?.brandName || "",
+                brandImage: updateBrand?.brand?.brandimg || "",
+
+              });
+            }
+          }, [updateBrand, reset]);
     const onSubmit = async (data) => {
         const formData = new FormData();
         formData.append("brandName", data.brandName);
@@ -25,20 +37,34 @@ const CreateBrand = ({setActiveContent}) => {
       
     
         try {
-            const response = await apiCall('post', '/brands', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+
+            // Make the API call
+           if(updateBrand){
+            const response = await apiCall('post', `/brands/${updateBrand?.brand?.id}`, formData);
+
+            // Notify success
+            toast.success('Brand updated successfully!', {
+                position: 'top-right',
             });
-    
+
+            setActiveContent('brand');
+           }
+           else{
+            const response = await apiCall('post', '/brands', formData);
+
+            // Notify success
             toast.success('Brand created successfully!', {
                 position: 'top-right',
             });
-    
-            setActiveContent('Brand');
+
+            setActiveContent('brand');
+           }
         } catch (error) {
-            console.error('Error:', error.response?.data || error.message);
-            alert(error.response?.data?.message || 'Creation failed');
+            console.error('Error creating brand:', error.response?.data || error.message);
+            toast.error(error.response?.data?.message || 'Creating brand failed.', {
+                position: 'top-right',
+            });
+            
         }
     };
     
@@ -92,7 +118,9 @@ const CreateBrand = ({setActiveContent}) => {
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-                Create Brand
+                {
+                    updateBrand? "Create Brand" : "Update Brand"
+                }
             </button>
         </form>
         </div>

@@ -1,33 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthProvider";
 import apiCall from "@/api/axiosInstance";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CartInfo = () => {
   const [currentCarts, setCurrentCarts] = useState([]);
-  const { cart,setCartCount, setCart } = useContext(AuthContext);
+  const { cart, setCartCount, setCart, orderedProducts, setOrderedProducts, setFinalTotal, finalTotal } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrentCarts(cart);
+    setCurrentCarts(cart); 
   }, [cart]);
 
-  console.log(currentCarts,"currentcarts")
+
+
 
   const removeItem = async (id) => {
     try {
       const response = await apiCall("DELETE", `/product-carts/${id}`);
-      console.log("Delete response:", response);
-  
-      setCart((prev)=>prev.filter(item=> item.id !==id));
-      setCartCount((prev)=>prev-1);
+      toast.success('Cart deleted successfully!');
+      setCart((prev) => prev.filter((item) => item.id !== id));
+      setCartCount((prev) => prev - 1);
       setCurrentCarts((prevCarts) => prevCarts.filter((item) => item.id !== id));
+      
     } catch (error) {
       console.error("Failed to delete cart item:", error);
-      alert("Failed to delete the cart item. Please try again.");
+      toast.error("something error happened")
     }
   };
-  
-  
 
   const updateQuantity = (id, quantity) => {
     setCurrentCarts((prevCarts) =>
@@ -36,13 +37,45 @@ const CartInfo = () => {
       )
     );
   };
+  console.log(currentCarts,"current");
+  console.log(cart,'cart')
 
   // Calculate totals
-  console.log(currentCarts);
   const subTotal = currentCarts.reduce((total, item) => total + item.price * item.quantity, 0);
-  const tax = subTotal *currentCarts.reduce((total, item) => total + Number(item.product.discount) * item.quantity, 0)/100 ;
-   const taxInNum = Number(tax);
+  const tax = subTotal * currentCarts.reduce((total, item) => total + Number(item?.product?.discount) * item.quantity, 0) / 100;
+  const taxInNum = Number(tax);
   const grandTotal = subTotal + taxInNum;
+ 
+  // Handle checkout, set orderedProducts with cart details
+  const handleCheckout = () => {
+    setFinalTotal(grandTotal);
+    const orderDetails = currentCarts.map((item) => {
+      // Check if product exists before accessing its properties
+      if (item.product) {
+        return {
+          name: item.product.title,
+          price: item.price,
+          image: item.product.image,
+          quantity: item.quantity,
+          total: item.price * item.quantity,
+        };
+      }
+
+      return null; // Return null if product is undefined
+    }).filter(item => item !== null);  // Remove any null values
+  
+   
+  
+    setOrderedProducts(orderDetails); // Set the ordered products to context state
+  
+    // Optionally, you can reset the cart after the order is placed
+    setCart([]);
+    setCartCount(0);
+    
+    // Navigate to checkout page after processing
+    navigate('/checkout');
+  };
+  
 
   return (
     <div className="p-6">
@@ -59,11 +92,11 @@ const CartInfo = () => {
           </tr>
         </thead>
         <tbody>
-          {currentCarts.map((item) => (
-            <tr key={item.id} className="text-center">
-              <td className="border border-gray-300 p-2">{item.product.title}</td>
+          {currentCarts.map((item,index) => (
+            <tr key={index} className="text-center">
+              <td className="border border-gray-300 p-2">{item.product?.title}</td>
               <td className="border border-gray-300 p-2">
-                <img src={item?.product?.image} alt={item.name} className="w-16 h-16" />
+                <img src={item?.product?.image} alt={item.product?.title} className="w-16 h-16" />
               </td>
               <td className="border border-gray-300 p-2">Tk. {item.price}</td>
               <td className="border border-gray-300 p-2">
@@ -107,10 +140,13 @@ const CartInfo = () => {
         </div>
         <div className="flex justify-between mt-4">
           <button className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
-            <Link to='/collections'>Continue Shopping</Link>
+            <Link to="/collections">Continue Shopping</Link>
           </button>
-          <button className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
-            <Link to='/checkout'>Checkout!</Link>
+          <button
+            className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600"
+            onClick={handleCheckout} // Handle the checkout and save order details
+          >
+            CheckOut!
           </button>
         </div>
       </div>

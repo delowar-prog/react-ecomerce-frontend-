@@ -5,6 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import apiCall from "@/api/axiosInstance";
 import { useForm } from "react-hook-form";
 import AuthContext from "@/context/AuthProvider";
+import { toast } from "react-toastify";
 
 
 const CollectionCard = ({ product, userId }) => {
@@ -33,6 +34,7 @@ const CollectionCard = ({ product, userId }) => {
     console.log(data, "hello"); // Ensure data is logged here
     try {
       const response = await apiCall("POST", "/product-carts", data);
+      console.log(response);
       setCartCount(prev=> prev+1)
       setCart((prev) => {
         const isProductInCart = prev.some((item) => item.product_id === data.product_id);
@@ -41,22 +43,16 @@ const CollectionCard = ({ product, userId }) => {
         }
         return [
           ...prev,
-          {
-            id: response?.data?.id,
-            title:response?.data?.title,
-            product_id: data.product_id,
-            user_id: data.user_id,
-            quantity: data.quantity,
-            price: data.price,
-          },
+       response?.data
         ];
       });
-      alert("Product added to cart successfully!");
+      toast.success('Cart Added successfully');
     } catch (error) {
       console.error("Error adding to cart:", error.response?.data || error.message);
       alert("Failed to add product to cart.");
     }
   };
+
 
   return (
     <div>
