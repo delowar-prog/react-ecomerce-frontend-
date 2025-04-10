@@ -19,12 +19,12 @@ const Dashboard = () => {
     const [updateBrand, setUpdateBrand] = useState({});
     const { auth } = useContext(AuthContext);
 
-
+console.log(auth.user.name, 'auth');
     return (
         <div className="flex w-full">
             <aside className="w-1/6 border-r p-4 flex flex-col gap-3 h-screen">
                 {
-                    auth?.user?.name == "Admin" ?
+                    auth?.user?.name == "admin" ?
                         <>
                             <div
                                 className={`cursor-pointer ${activeContent === 'category' ? "bg-purple-200" : ""} hover:bg-gray-200 py-2 border-2 flex text-center items-center justify-start gap-2`}
@@ -92,7 +92,7 @@ const Dashboard = () => {
 
             <div className="flex-1 p-4 bg-white">
                 {
-                    auth?.user?.name == 'Admin' ?
+                    auth?.user?.name == 'admin' ?
                         <>
                             {activeContent === 'category' && (
                                 <div>

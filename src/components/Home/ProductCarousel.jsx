@@ -37,7 +37,7 @@ const ProductCarousel = ({ filteredProducts, loading }) => {
                       </CardHeader>
                       <CardContent className="flex flex-col items-center justify-center space-y-4 p-6">
                         <img
-                          src={product.image}
+                          src={`${import.meta.env.VITE_BASE_URL}/${product.image}`}
                           alt={product.name}
                           className="object-cover h-48 w-full rounded-lg"
                         />

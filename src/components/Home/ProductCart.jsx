@@ -42,11 +42,11 @@ const ProductCart = () => {
           Latest Phone in the Town
         </h1>
         {loading ? (
-          <Carousel>
+          <Carousel className="max-w-full overflow-x-hidden">
             <CarouselContent>
               {Array.from({ length: 4 }).map((_, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1 w-full">
+                <CarouselItem key={index} className="">
+                  <div className="p-1 max-w-full">
                     <Card className="shadow-none border-none outline-none">
                     <CardContent className=" flex flex-col gap-3 w-full shadow-none items-center justify-center">
                           <Skeleton className="h-4 w-[800px]" />
@@ -73,7 +73,7 @@ const ProductCart = () => {
           Latest Laptop in the Town
         </h1>
         {loading ? (
-          <Carousel>
+          <Carousel className="max-w-full overflow-x-hidden">
             <CarouselContent>
               {Array.from({ length: 4 }).map((_, index) => (
                 <CarouselItem key={index}>
@@ -93,6 +93,7 @@ const ProductCart = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
+          
         ) : (
           <ProductCarousel filteredProducts={filteredLaptops} loading={loading} />
         )}

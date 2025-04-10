@@ -109,7 +109,7 @@ export const ProductDetails = () => {
       <div className="flex gap-8">
         <div>
           <img
-            src={product?.image}
+            src={`${import.meta.env.VITE_BASE_URL}/${product.image}`}
             alt={product?.image}
             className="h-[300px] object-cover w-full rounded-lg"
           />
@@ -147,7 +147,7 @@ export const ProductDetails = () => {
         {
         details &&  details.map(detail=>(
             <div>
-              <img src={`${import.meta.env.VITE_BASE_URL.replace(/\/api$/, '')}/${detail.img1}`} alt="" />
+              <img src={`${import.meta.env.VITE_BASE_URL}/${detail.image}`} alt="" />
               <p>{detail.description}</p>
             </div>
           ))
@@ -165,7 +165,7 @@ export const ProductDetails = () => {
             className="border rounded-lg p-4 text-center shadow hover:shadow-lg"
           >
             <img
-              src={product.image}
+              src={`${import.meta.env.VITE_BASE_URL}/${product.image}`}
               alt={product.name}
               className="w-32 h-32 mx-auto object-cover"
             />

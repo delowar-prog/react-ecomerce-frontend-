@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-
 const axiosInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_BASE_URL}/api`, 
-    timeout: 5000, 
+    baseURL: `${import.meta.env.VITE_BASE_URL}/api`,
+    timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
 
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -18,36 +16,41 @@ axiosInstance.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
+    (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const refreshToken = localStorage.getItem('refresh_token');
+            console.log(error.response.status, 'error response status');
+            if (refreshToken) {
+                try {
+                    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/refresh-token`, {}, {
+                        headers: {
+                            Authorization: `Bearer ${refreshToken}`,
+                        },
+                    });
+
+                    const newAccessToken = response.data.accessToken;
+                    localStorage.setItem('access_token', newAccessToken);
+                    originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                    return axios(originalRequest);
+                } catch (refreshError) {
+                    console.error('Failed to refresh token:', refreshError);
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    window.location.href = '/login';
+                }
+            }
+        }
+
         return Promise.reject(error);
     }
 );
-axiosInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    async (error) => {
-      const originalRequest = error.config;
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (refreshToken) {
-          try {
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/refresh-token`, {refreshToken});
-            // don't use axious instance that already configured for refresh token api call
-            const newAccessToken = response.data.accessToken;
-            localStorage.setItem('accessToken', newAccessToken);  //set new access token
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-            return axios(originalRequest); //recall Api with new token
-          } catch (error) {
-            // Handle token refresh failure
-            // mostly logout the user and re-authenticate by login again
-          }
-        }
-      }
-      return Promise.reject(error);
-    }
-  );
 
 const apiCall = async (method, url, data = null, params = null) => {
     try {
@@ -57,14 +60,9 @@ const apiCall = async (method, url, data = null, params = null) => {
             data,
             params,
             headers: {
-                'Content-Type': 'application/json', // Default Content-Type
+                'Content-Type': data instanceof FormData ? 'multipart/form-data' : 'application/json',
             },
         };
-
-        // 'multipart/form-data' if data is FormData
-        if (data instanceof FormData) {
-           config.headers['Content-Type'] = 'multipart/form-data'
-        }
 
         const response = await axiosInstance(config);
         return response.data;

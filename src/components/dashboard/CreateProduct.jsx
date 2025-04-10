@@ -26,6 +26,7 @@ const CreateProduct = ({ setActiveContent,updateProduct }) => {
         setValue('brand_id',updateProduct?.product.brand_id)
         // setValue('image',URL.createObjectURL(updateProduct.product.image))
       }
+      console.log(updateProduct);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -72,7 +73,7 @@ const CreateProduct = ({ setActiveContent,updateProduct }) => {
         try {
 
             // Make the API call
-           if(updateProduct){
+           if(updateProduct?.product?.id){
             const response = await apiCall('post', `/products/${updateProduct?.product?.id}`, formData);
 
             // Notify success

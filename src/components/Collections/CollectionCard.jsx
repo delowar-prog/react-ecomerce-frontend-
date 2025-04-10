@@ -17,6 +17,7 @@ const CollectionCard = ({ product, userId }) => {
       user_id: auth?.user?.id,
       quantity: 1,
       price: "",
+      color:"white"
     },
   });
 
@@ -31,6 +32,8 @@ const CollectionCard = ({ product, userId }) => {
 
   // Handle Add to Cart
   const onAddToCart = async (data) => {
+    // data.color = "white";
+    // data.size = "M";
     console.log(data, "hello"); // Ensure data is logged here
     try {
       const response = await apiCall("POST", "/product-carts", data);
@@ -64,7 +67,7 @@ const CollectionCard = ({ product, userId }) => {
         <CardContent>
         <Link to={`/product/${product?.id}`} >
         <img
-            src={product?.image}
+            src={`${import.meta.env.VITE_BASE_URL}/${product.image}`}
             alt={product?.title}
             className="h-[300px] object-cover w-full rounded-lg"
           />
